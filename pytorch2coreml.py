@@ -86,11 +86,11 @@ def onnx_to_coreml(config):
         quantized_model.save('quantize_{}'.format(config['coreml_name']))
 
 
-def get_model(model_name, num_classes):
-    if model_name == 'fpn':
-        return FPNMobileNet(output_ch=num_classes, pretrained=False).cuda()
-    elif model_name == 'joint_unet':
-        return JointUNetMobileNet(num_classes=num_classes, pretrained=False).cuda()
+def get_model(model_name, num_classes=1):
+    # if model_name == 'fpn':
+    #     return FPNMobileNet(output_ch=num_classes, pretrained=False).cuda()
+    # elif model_name == 'joint_unet':
+    #     return JointUNetMobileNet(num_classes=num_classes, pretrained=False).cuda()
     return UNetMobileNet(num_classes=num_classes, pretrained=False).cuda()
 
 
@@ -135,7 +135,7 @@ def _get_state_dict(config):
 if __name__ == '__main__':
     with open('convert.yaml', 'r') as f:
         config = yaml.load(f)
-    state_dict = _get_state_dict(config)
-
+    # state_dict = _get_state_dict(config)
+    state_dict = torch.load(config['model_path'])
     pth_to_onnx(get_model(config['model'], config['num_classes']), state_dict, config['onnx_name'])
     onnx_to_coreml(config)

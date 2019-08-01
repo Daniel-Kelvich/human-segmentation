@@ -1,8 +1,0 @@
-onnx_name: temp.onnx
-model_path: models/hs-mobile_unet-v0.pt
-coreml_name: head_seg.mlmodel
-
-parallel: False
-quantize: True
-model: unet
-description: Predicts binary head segmentation mask
